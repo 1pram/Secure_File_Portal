@@ -1,11 +1,11 @@
 # Secure File Portal
 
-This project implements a **security-by-default file sharing system** that assumes the application layer can fail and ensures the infrastructure is equipped to fail closed.
+This project implements a **security-by-default file sharing system** that assumes the application layer can fail and ensures the infrastructure layer is equipped to fail closed.
  Rather than relying on application logic to protect sensitive data, access control, encryption, monitoring, and auditability are enforced **at the storage and control plane layers**, using AWS managed services and Infrastructure as Code.
 
  ## Why this project exists
 
- Several high profile file-sharing breaches in receent years (OneDrive, Dropbox, Mega, and Google Drive) were not caused by novel exploitation techniques, but by infrastructure level breakdowns:
+ Several high-profile file-sharing breaches in recent years (OneDrive, Dropbox, Mega, and Google Drive) were not caused by novel exploitation techniques, but by infrastructure-level breakdowns:
  - over-privileged service roles
  - misconfigured access controls
  - encryption enforced inconsistently
@@ -41,7 +41,7 @@ The result is a design where **authorization and enforcement live at the infrast
 ### Identity and access
 - Amazon Cognito User Pool for authentication
 - Cognito Identity Pool for temporary AWS credentials
-- Single scoped IAM viewer role
+- Single, scoped IAM viewer role
 - Path-based access controls ('docs/viewer/*)
 
 ### Storage and encryption
@@ -60,7 +60,7 @@ The result is a design where **authorization and enforcement live at the infrast
 - CloudTrail S3 data events enabled
 - CloudWatch metric filters for abnormal access patterns
 - SNS notifications for alerting
-- Immutable audit trail sotred separately
+- Immutable audit trail stored separately
 
 Secure_File_Portal/
 |
