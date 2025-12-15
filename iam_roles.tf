@@ -1,10 +1,8 @@
-# ============================================================================
 # IAM Policies with Path-Based Conditions
-# ============================================================================
 
-# -----------------------------------------------------------------------------
 # Viewer Policy: Read-Only Access to viewer/ prefix
-# -----------------------------------------------------------------------------
+
+
 data "aws_iam_policy_document" "viewer" {
   statement {
     sid       = "ListBucket"
@@ -30,9 +28,8 @@ data "aws_iam_policy_document" "viewer" {
   }
 }
 
-# -----------------------------------------------------------------------------
 # Editor Policy: Read/Write Access to editor/ prefix
-# -----------------------------------------------------------------------------
+
 data "aws_iam_policy_document" "editor" {
   statement {
     effect    = "Allow"
@@ -60,9 +57,8 @@ data "aws_iam_policy_document" "editor" {
   }
 }
 
-# -----------------------------------------------------------------------------
 # Admin Policy: Full Access
-# -----------------------------------------------------------------------------
+
 data "aws_iam_policy_document" "admin" {
   statement {
     effect  = "Allow"
@@ -74,9 +70,8 @@ data "aws_iam_policy_document" "admin" {
   }
 }
 
-# -----------------------------------------------------------------------------
 # Create IAM Policies
-# -----------------------------------------------------------------------------
+
 resource "aws_iam_policy" "viewer" {
   name   = "${var.project}-viewer"
   policy = data.aws_iam_policy_document.viewer.json

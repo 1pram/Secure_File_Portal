@@ -1,6 +1,4 @@
-# ============================================================================
 # Primary Vault Bucket with Security Controls
-# ============================================================================
 
 resource "aws_s3_bucket" "vault" {
   bucket = "${var.project}-vault-${random_id.suffix.hex}"
@@ -9,9 +7,8 @@ resource "aws_s3_bucket" "vault" {
   force_destroy = true
 }
 
-# -----------------------------------------------------------------------------
 # Block ALL Public Access
-# -----------------------------------------------------------------------------
+
 resource "aws_s3_bucket_public_access_block" "vault" {
   bucket = aws_s3_bucket.vault.id
 
@@ -21,9 +18,8 @@ resource "aws_s3_bucket_public_access_block" "vault" {
   restrict_public_buckets = true
 }
 
-# -----------------------------------------------------------------------------
 # Enable Versioning (Recovery from Deletion)
-# -----------------------------------------------------------------------------
+
 resource "aws_s3_bucket_versioning" "vault" {
   bucket = aws_s3_bucket.vault.id
 
@@ -32,9 +28,8 @@ resource "aws_s3_bucket_versioning" "vault" {
   }
 }
 
-# -----------------------------------------------------------------------------
 # Server-Side Encryption with Customer-Managed KMS Key
-# -----------------------------------------------------------------------------
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "vault" {
   bucket = aws_s3_bucket.vault.id
 
@@ -46,10 +41,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "vault" {
     bucket_key_enabled = true
   }
 }
-
-# -----------------------------------------------------------------------------
 # Lifecycle Management (Layer 3: Cost Optimization + Compliance)
-# -----------------------------------------------------------------------------
+
 resource "aws_s3_bucket_lifecycle_configuration" "vault" {
   bucket = aws_s3_bucket.vault.id
 
@@ -76,10 +69,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "vault" {
     }
   }
 }
-
-# -----------------------------------------------------------------------------
 # Bucket Policy: Deny Unencrypted Uploads (Fail Closed)
-# -----------------------------------------------------------------------------
+
 resource "aws_s3_bucket_policy" "vault" {
   bucket = aws_s3_bucket.vault.id
 

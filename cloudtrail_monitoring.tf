@@ -1,10 +1,7 @@
-# ============================================================================
 # CloudTrail Logging + CloudWatch Alerting
-# ============================================================================
 
-# -----------------------------------------------------------------------------
 # Dedicated CloudTrail Log Bucket
-# -----------------------------------------------------------------------------
+
 resource "aws_s3_bucket" "trail_logs" {
   bucket = "${var.project}-trail-${random_id.suffix.hex}"
   tags   = local.tags
@@ -40,6 +37,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "trail_logs" {
 }
 
 # CloudTrail Bucket Policy
+
 resource "aws_s3_bucket_policy" "trail_logs" {
   bucket = aws_s3_bucket.trail_logs.id
 
@@ -73,9 +71,8 @@ resource "aws_s3_bucket_policy" "trail_logs" {
   })
 }
 
-# -----------------------------------------------------------------------------
 # CloudWatch Log Group for Real-Time Streaming
-# -----------------------------------------------------------------------------
+
 resource "aws_cloudwatch_log_group" "trail" {
   name              = "/aws/cloudtrail/${var.project}"
   retention_in_days = 90
@@ -83,9 +80,8 @@ resource "aws_cloudwatch_log_group" "trail" {
   tags = local.tags
 }
 
-# -----------------------------------------------------------------------------
 # CloudTrail with S3 Data Events
-# -----------------------------------------------------------------------------
+
 resource "aws_cloudtrail" "trail" {
   name                          = "${var.project}-trail"
   s3_bucket_name                = aws_s3_bucket.trail_logs.id
@@ -111,9 +107,8 @@ resource "aws_cloudtrail" "trail" {
   tags = local.tags
 }
 
-# -----------------------------------------------------------------------------
 # IAM Role for CloudTrail → CloudWatch
-# -----------------------------------------------------------------------------
+
 resource "aws_iam_role" "cloudtrail_to_cw" {
   name = "${var.project}-cloudtrail-cw"
 
@@ -146,9 +141,9 @@ resource "aws_iam_role_policy" "cloudtrail_to_cw" {
   })
 }
 
-# -----------------------------------------------------------------------------
+
 # CloudWatch Metric Filter (Counts GetObject Operations)
-# -----------------------------------------------------------------------------
+
 resource "aws_cloudwatch_log_metric_filter" "get_object_burst" {
   name           = "${var.project}-getobject-burst"
   log_group_name = aws_cloudwatch_log_group.trail.name
@@ -161,9 +156,8 @@ resource "aws_cloudwatch_log_metric_filter" "get_object_burst" {
   }
 }
 
-# -----------------------------------------------------------------------------
 # SNS Topic for Security Alerts
-# -----------------------------------------------------------------------------
+
 resource "aws_sns_topic" "alerts" {
   name = "${var.project}-alerts"
 
@@ -176,9 +170,8 @@ resource "aws_sns_topic_subscription" "email" {
   endpoint  = var.alert_email
 }
 
-# -----------------------------------------------------------------------------
 # CloudWatch Alarm (Triggers on Suspicious Activity)
-# -----------------------------------------------------------------------------
+
 resource "aws_cloudwatch_metric_alarm" "excess_downloads" {
   alarm_name          = "${var.project}-excess-downloads"
   namespace           = "${var.project}/security"
@@ -188,7 +181,7 @@ resource "aws_cloudwatch_metric_alarm" "excess_downloads" {
   evaluation_periods  = 1
   threshold           = 100
   comparison_operator = "GreaterThanOrEqualToThreshold"
-
+ 
   alarm_description = "High number of object downloads in 5 minutes"
   alarm_actions     = [aws_sns_topic.alerts.arn]
   ok_actions        = [aws_sns_topic.alerts.arn]

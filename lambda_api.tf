@@ -1,6 +1,4 @@
-# ============================================================================
 # Lambda Function for Pre-Signed URL Generation
-# ============================================================================
 
 # Package Lambda code
 data "archive_file" "lambda_zip" {

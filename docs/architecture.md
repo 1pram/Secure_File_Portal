@@ -134,23 +134,8 @@ This provides reletively 83% lower Long-term storage cost.
 
 Trail bucket may use similar tiering depending on configuration.
 
-# 8. Data Flow Summary
 
-   User → Cognito
-          ↓
-   API Gateway (/presign)
-          ↓
-   Lambda (validate → generate URL)
-          ↓
-   S3 Vault Bucket (KMS encrypted)
-          ↓
-   CloudTrail (Data events) 
-          ↓
-   CloudWatch (Metrics → Alarm)
-          ↓
-   SNS Email Alert
-
-# 9. Design Trade-offs (Intentional Simplifications)
+# 8. Design Trade-offs (Intentional Simplifications)
 
 To emphasize infrastructure security over product completeness:
 
@@ -166,7 +151,7 @@ These constraints allow focus on mastering:
 - Lifecycle management
 - Monitoring & alerting
 
-# 10. Summary
+# 9. Summary
 
 'architecture.md' captures:
 

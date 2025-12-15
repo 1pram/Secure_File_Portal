@@ -1,6 +1,4 @@
-# ============================================================================
 # Cognito User Pool (Authentication)
-# ============================================================================
 
 resource "aws_cognito_user_pool" "pool" {
   name = "${var.project}-users"
@@ -57,9 +55,8 @@ resource "aws_cognito_user_pool_domain" "domain" {
   user_pool_id = aws_cognito_user_pool.pool.id
 }
 
-# -----------------------------------------------------------------------------
 # Identity Pool (Maps Auth to IAM)
-# -----------------------------------------------------------------------------
+
 resource "aws_cognito_identity_pool" "main" {
   identity_pool_name               = "${var.project}-identity"
   allow_unauthenticated_identities = false
@@ -71,9 +68,8 @@ resource "aws_cognito_identity_pool" "main" {
   }
 }
 
-# -----------------------------------------------------------------------------
 # IAM Role for Authenticated Users (Simplified - All get Viewer)
-# -----------------------------------------------------------------------------
+
 resource "aws_iam_role" "authenticated" {
   name = "${var.project}-cognito-authenticated"
 

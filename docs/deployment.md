@@ -37,23 +37,37 @@ aws sts get-caller-identity (to verify connectivity to your AWS account)
  cd secure-file-portal
 
 # 3. Project Structure
-
- |-- providers.tf
- |-- versions.tf
- |-- variables.tf
- |-- terraform.tfvars
- |-- output.tf
- |-- kms.tf
- |-- iam_roles.tf
- |-- cognito.tf
- |-- s3_vault.tf
- |-- cloudtrail_monitoring.tf
- |-- lambda_api.tf
- |-- Deployment.md
- |-- Testing.md
- |-- known_limitations.md
- |__ lambda/
-     |__ main.py 
+Secure_File_Portal/
+|
+|-- README.md
+|
+|-- providers.tf
+|-- versions.tf
+|-- variables.tf
+|-- terraform.tfvars
+|-- outputs.tf
+|-- random.tf
+|-- locals.tf
+|
+|-- kms.tf
+|-- iam_roles.tf
+|-- cognito.tf
+|-- s3_vault.tf
+|-- cloudtrail_monitoring.tf
+|-- lambda_api.tf
+|
+|-- lambda/
+| |-- main.py
+|
+|-- docs/
+| |-- architecture.md
+| |-- deployment.md
+| |-- testing-validation.md
+| |-- limitations.md
+| |-- troubleshooting.md
+|
+|-- diagrams/
+| |-- architecture.png
 
 # Configure 'terraform.tfvars'
 

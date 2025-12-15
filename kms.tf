@@ -1,6 +1,5 @@
-# ============================================================================
+
 # KMS Customer Managed Key (CMK) with Automatic Rotation
-# ============================================================================
 
 resource "aws_kms_key" "vault" {
   description             = "KMS CMK for ${var.project} S3 encryption"

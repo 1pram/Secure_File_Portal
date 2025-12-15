@@ -1,6 +1,4 @@
-# ============================================================================
 # Input Variables
-# ============================================================================
 
 variable "aws_region" {
   description = "AWS region where all resources will be deployed"
