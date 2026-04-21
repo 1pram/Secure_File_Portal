@@ -35,7 +35,7 @@ aws sts get-caller-identity (to verify connectivity to your AWS account)
  From the terminal
  git clone https://github.com/<your-repo>/secure-file-portal.git
  cd secure-file-portal
-
+```
 # 3. Project Structure
 Secure_File_Portal/
 |
@@ -68,7 +68,7 @@ Secure_File_Portal/
 |
 |-- diagrams/
 | |-- architecture.png
-
+```
 # Configure 'terraform.tfvars'
 
 Create your variable file:
