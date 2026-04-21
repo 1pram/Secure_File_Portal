@@ -61,9 +61,8 @@ The result is a design where **authorization and enforcement live at the infrast
 - CloudWatch metric filters for abnormal access patterns
 - SNS notifications for alerting
 - Immutable audit trail stored separately
-'''
+```
 Secure_File_Portal/
-|
 |-- README.md
 |
 |-- providers.tf
@@ -93,7 +92,7 @@ Secure_File_Portal/
 |
 |-- diagrams/
 | |-- architecture.png
-'''
+```
 
 ## What this project demonstrates
 
