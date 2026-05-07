@@ -1,4 +1,4 @@
-# This guide validates **every security control** in the Secure_File_Portal.  It confirms that encryption, access control, logging, alerting, Lifecycle rules, and versioning behave as expected.
+# This guide validates every security control in the Secure_File_Portal.  It confirms that encryption, access control, logging, alerting, Lifecycle rules, and versioning behave as expected.
 
 All tests are designed to be repeatable and portable, proving the infrastructure fails **closed** even when the defensive layers are breached.
 
