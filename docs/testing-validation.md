@@ -1,18 +1,19 @@
-# This guide validates every security control in the Secure_File_Portal.  It confirms that encryption, access control, logging, alerting, Lifecycle rules, and versioning behave as expected.
+# Testing and validation
+This guide validates every security control in the Secure_File_Portal.  It confirms that encryption, access control, logging, alerting, Lifecycle rules, and versioning behave as expected.
 
 All tests are designed to be repeatable and portable, proving the infrastructure fails **closed** even when the defensive layers are breached.
 
-# 1. Prerequisits
+### 1. Prerequisits
 
 Before running tests:
 
-## 1. Deploy the infrastructure
+### 1. Deploy the infrastructure
 Terraform deployment must be complete and successful.
 
-## 2. SNSsubscription cofirmed
+### 2. SN Ssubscription cofirmed
 Check your email and confirm the SNS subscription.
 
-## 3. Export environment variables
+### 3. Export environment variables
 These will be used throguout the tests:
 
 In the terminal via VSCode:
@@ -22,11 +23,11 @@ export API_ENDPOINT=$(terraform output -raw api_endpoint)
 export USER_POOL_ID=$(terreform output -raw cognito_user_id)
 export LIENT_POOL_ID=$(terraform output -raw cognito_user_pool_client_id)
 
-## 4. AWS CLI authenticated
+### 4. AWS CLI authenticated
 in the terminal via VSCode
 aws sts get-caller_identity
 
-## 5. Tools
+### 5. Tools
 aws cli
 curl
 gzip jq for (CloudTrail log examination)
