@@ -14,7 +14,7 @@ Terraform deployment must be complete and successful.
 Check your email and confirm the SNS subscription.
 
 ### 3. Export environment variables
-These will be used throguout the tests:
+These will be used throughout the tests:
 
 In the terminal via VSCode:
 export VAULT_BUCKET=$(terraform output -raw vault_bucket)
