@@ -32,73 +32,73 @@ aws cli
 curl
 gzip jq for (CloudTrail log examination)
 
-# 2. Test 1 (Bucket encryption)
+### 2. Test 1 (Bucket encryption)
 
 The goal here is to confirm S3 vault bucket enforces SSE-KMS with CMK (Sever Side Encryption with AWS Key Management Service using Customer-Managed keys).
 
-## Command:
+### Command:
 In the terminal via VSCode you will type:
 aws s3api get-bucket-encryption bucket "VAULT_BUCKET"
 
-## Expected:
+### Expected:
 "SSEALgorithm": "aws:kms"
 "BucketKeyEnabled": true
 "KMSMasterKeyID" matches the CMK ARN
 
 You are validating: encryption at rest, CMK enforcement, and Bucket key enabled.
 
-# 3. Test 2 (Block public access)
+### 3. Test 2 (Block public access)
 
 The goal is to ensure the bucket cannot be made public.
 
-## Check existing block
+### Check existing block
 in the terminal via VSCode, you will type:
 aws s3api get-public-access-block --bucket "VAULT_BUCKET"
 
-## Expected:All true!
+### Expected:All true!
 BlockPublicAcls
 IgnorePublicAcls
 BlockPublicPolicy
 RestrictPublicBuckets
 
-## Attempt to make public should fail.
+### Attempt to make public should fail.
 in the terminal
 aws s3api put-bucket-acl --bucket "VSULT_BUCKET --acl public-read
 
-## Expected:
+### Expected:
 Accessdenied
 
-# 4. Test 3 (Cognito user creation and authentication)
+### 4. Test 3 (Cognito user creation and authentication)
 The goal is to verify cognito signup and signin workflow.
 
-## 1. Sign-up user
+### 1. Sign-up user
 In the terminal:
  aws cognito-idp sign-up \
  --client-id "$CLIENTID" \
  --username testuser@testing.com \
  --password 'Password12345!'
 
- ## 2. Admin confirm
+ ### 2. Admin confirm
  aws cognito-idp admin-confirm-signup \
  --user-pool-id "$USER_POOL_ID" \
  --username testuser@testingcom
 
- ## 3. Authenticate:
+ ### 3. Authenticate:
  aws cognito-idp initiate-auth \
  --auth-flow USER_PASSWORD_AUTH \ 
  --client-id "$CLIENT_ID" \
  --auth-parameters USERNAME=testuser@testing.com, PASSWORD=Password12345!
 
- ## Executed:
+ ### Executed:
  - Password policy enforced
  - Confirmation required
 - Returns AccessToken, IDToken, RefreshToken
 
-# 5. Test 4 (Generate pre-signed URL)
+### 5. Test 4 (Generate pre-signed URL)
 
  The goal is to validate Lambda+API Gateway are wired correctly.
 
-## Command
+### Command
 In the terminal:
 curl -X POST "$API_ENDPOINT/presign" \
 -H "Content-Type: application/json \
@@ -108,12 +108,12 @@ curl -X POST "$API_ENDPOINT/presign" \
     "expires":300
   }'
 
-## Expected:
+### Expected:
 - JSON response
 - 'url' field with s3 pre-signed URl
 - 'expires_in' matches request
 
-# 6. Test 5 (Upload using pre-signed URL)
+### 6. Test 5 (Upload using pre-signed URL)
 
 The goal is to confirm upload works and the the object is encrypted.
 
@@ -128,12 +128,12 @@ aws s3api head-object \
 --bucket "VAULT_bucket \
 --bucket "docs/viewer/test-file.txt"
 
-## Expected:
+### Expected:
 Object exists
 - '"ServerSideEncryption":"aws:kms"'
 - '"SSEKMSKeyId"' = CMK ARN
 
-# 7. Test 6 (CloudTrail S3 Data events)
+### 7. Test 6 (CloudTrail S3 Data events)
 
 The goal is to ensure every S3 bucket access is logged.
 
@@ -157,11 +157,11 @@ Expected:
 - 'requestParameters.key' = '"docs/viwer/test-file.txt"'
 - identity of caller captured
 
-# 8. Test 7  (CloudWatch Alarm & SNS Alert)
+### 8. Test 7  (CloudWatch Alarm & SNS Alert)
 
 The goal is to trigger the excess download alarms (100+ accesses in 5 minutes)
 
-## Flood API Gateway
+### Flood API Gateway
 In the terminal:
 for i in (1..110); do
 curl -s -X POST "$API_ENDPOINT?presign" \
@@ -173,7 +173,7 @@ curl -s -X POST "$API_ENDPOINT?presign" \
  fi
 done 
 
-## Check alarm:
+### Check alarm:
 In the terminal:
 aws cloudwatch describe-alarms \
   --alarm-names "secure-file-portal-excess-downloads
@@ -182,14 +182,14 @@ Expected:
   - State = 'ALARM'
   - Datapoint ≥ 100
 
-## Check email:
+### Check email:
 - SNS email with  alarm notification should appear within ~2 minutes.
 
-# 9. Test 8 - IAM Prefix Enforcement
+### 9. Test 8 - IAM Prefix Enforcement
 
 The goal is to ensure IAM blocks to unauthorized folders, even with pre-signed URL.
 
-## Request a pre-signed GET for 'docs/editor/':
+### Request a pre-signed GET for 'docs/editor/':
 In the terminal:
 curl -X POST "$API_ENDPOINT/presign" \
    -H "Content-Type: application/json" \
@@ -199,7 +199,7 @@ curl -X POST "$API_ENDPOINT/presign" \
      "expires":300
     }'
 
-## Attempt to use URL:
+### Attempt to use URL:
 Should result in:
 
 <error>
@@ -209,10 +209,10 @@ Should result in:
 
 This proves defense in depth: IAM + S3 access even if Lambda misbehaves.
 
-# 10. Test 9 (Lifecycle Configuration)
+### 10. Test 9 (Lifecycle Configuration)
 The goal is to Confirm lifecycle rules exist for transition + expiration.
 
-## Command:
+### Command:
 In the terminal:
 aws s3api get-bucket-lifecycle-configuration \
   --bucket "$VAULT_BUCKET"
@@ -224,7 +224,7 @@ Expected:
 
 Note: You can't observe actual transitions in a short testing testing window. Configuration presence is sufficient validation.
 
-# 11. Test 10 (Versioning & Recovery)
+### 11. Test 10 (Versioning & Recovery)
 
 Goal Validate versioning and delete markers
 
@@ -258,7 +258,7 @@ Expected:
 - Multiple versions visible
 - Multiple delete marker restores file
 
-# 12. Summary Checklist
+### 12. Summary Checklist
 
 You should now be able to check off:
 KMS encryption enforced
