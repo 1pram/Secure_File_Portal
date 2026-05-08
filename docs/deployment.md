@@ -2,7 +2,7 @@
 
 This guide walks you through deploying the Secure File Portal using **Terraform**, a full build that includes all 11 AWS services: S3, KMS, IAM, Cognito, Lambda, API Gateway, CloudTrail, CloudWatch Metric filters, Allarms, and SNS.
 
-# Tech Stack
+### Tech Stack
 - Vault bucket + Trail bucket (S3)
 - Encryption via CMK (KMS)
 - IAM least-privilege roles + prefix control
@@ -16,7 +16,7 @@ This guide walks you through deploying the Secure File Portal using **Terraform*
 - Windows terminal
 - VSCode
 
-# Prerequisits
+### Prerequisits
 
 - Terraform **v1.5+**
 - AWS CLI **v2**
@@ -69,7 +69,7 @@ Secure_File_Portal/
 |-- diagrams/
 | |-- architecture.png
 ```
-# Configure 'terraform.tfvars'
+### Configure 'terraform.tfvars'
 
 Create your variable file:
 
@@ -85,7 +85,7 @@ vault_prefixes = {
     admin  = "docs/admin/"
 }
 
-# 5. Initialize Terraform
+### 5. Initialize Terraform
 
 In the terminal via VSCode, type:
 terraform init and press Enter
@@ -95,7 +95,7 @@ You should see:
 "Terraform has been successfully initialized!
 If provider version mismatch, update Terraform or your lock file accordingly."
 
-# 6. Validate & Plan
+### 6. Validate & Plan
 
 ### Validate syntax:
 
@@ -112,7 +112,7 @@ Look for approximately:
 
 You should also see S3 buckets, CloudTrail, IAM roles, Cognito pools, Lambda, API Gateway, SNS and metric filters in the plan.
 
-# 7. Apply the infrastructure
+### 7. Apply the infrastructure
 
 Deploy everything by typing:
 
@@ -129,7 +129,7 @@ cognito_domain             = "secure-file-portal-xxxx.auth.us-east-1.amazoncogni
 
 These values will be used for testing.
 
-# 8. Confirm SNS subscription
+### 8. Confirm SNS subscription
 
 Within 1-2 minutes of deployment, check your inbox for:
 ** AWS Notification -Subscription Confirmation**
@@ -142,7 +142,7 @@ aws sns list-subscriptions
 
 The subscription should no longer show 'Pending Confirmation'.
 
-# 9. Export Outputs as Environment variables
+### 9. Export Outputs as Environment variables
 
 This will speed up testing later
 
@@ -154,7 +154,7 @@ export CLIENT_ID=$(terreform output -raw cognito_user_pool_client_id)
 
 These correspond to the exact variables used in the TESTING.md guide.
 
-# 10. Quick Smoke Test (Pre-signed API)
+### 10. Quick Smoke Test (Pre-signed API)
 
 Send a test request:
 
@@ -171,7 +171,7 @@ Expected return:
 If you get '"Internal Server Error"', Check Lambda logs:
 aws logs tail /aws/lambda/secure-file-portal-presign --follow
 
-# 11. Full Testing
+### 11. Full Testing
 
 Run the full suite in:
 
@@ -189,7 +189,7 @@ To validate:
 - Lifecycle configuration
 - Versioning & recovery
 
-# 12. Cleanup (Avoid charges)
+### 12. Cleanup (Avoid charges)
 
 When you're done, type the following in ther terminal via VSCode:
 terraform destroy
