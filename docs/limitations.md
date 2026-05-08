@@ -2,7 +2,7 @@
 
 The Secure File Protal is a focused  security project, not a full featured product. This document describes what it does not cover to set realistic expectations going forward.
 
-## 1. Simplified authentication
+### 1. Simplified authentication
 
 Authentication and identity federation are intentionally kept simple or abstracted.
 
@@ -12,7 +12,7 @@ Authentication and identity federation are intentionally kept simple or abstract
 
 The main goal was to deeply understand CloudTrail data events, KMS policies, S3 lifecycle management, and IAM based access patterns before layering in full identity complexity.
 
-## 2. Minimal user interface
+### 2. Minimal user interface
 
 The project does not include:
 
@@ -23,7 +23,7 @@ The project does not include:
 
 Security depth was prioritized over UI breadth. This is a deliberate trade-off, especially for a portfolio piece aimed at cloud infrastructure oriented roles.
 
-## 3. Single region deployment
+### 3. Single region deployment
 
 The current design assumes:
 
@@ -37,7 +37,7 @@ In a production environment you would likely want:
 - Disaster recovery plans
 - Considerations for data residency and regulatory constraints
 
-## 4. Basic alerting only
+### 4. Basic alerting only
 
 Alerting uses:
 
@@ -53,7 +53,7 @@ It does not include:
 
 Those could be added later, but are out of scope for this initial project.
 
-## 5. Limited abuse scenarios
+### 5. Limited abuse scenarios
 
 The primary detection scenario is bulk download of objects.
 
@@ -65,7 +65,7 @@ This project does not fully model:
 
 The design choices are aligned with the goals of highlighting infrastructure controls and fail closed behavior rather than covering every possible threat model.
 
-## 6. Cost modeling assumptions
+### 6. Cost modeling assumptions
 
 The cost figures in the narrative are based on:
 
