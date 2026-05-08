@@ -2,7 +2,7 @@
 
 The Secure File Portal is a zero-trust, infrastructure-first file storage system.
 
-# 1. Service inventory
+### 1. Service inventory
 
 This project uses the following AWS services:
 
@@ -18,9 +18,9 @@ This project uses the following AWS services:
 **Amazon SNS** Email alerts
 **Teraform (archive/random providers)** Packaging Lambda + unique naming
 
-# 2. Storage & Encryption
+### 2. Storage & Encryption
 
-## Vault bucket (Primary Storage)
+### Vault bucket (Primary Storage)
 - Private S3 bucket for user files
 **SSE-KMS enforced**: ('aws:kms') with a dedicated CMK
 **Bucket Key enabled**: to reduce KMS cost
@@ -35,17 +35,17 @@ estrictPublicBucket = true
 
 These prevent Capital-One style public bucket exposure.
 
-## CloudWTrail Bucket (Log Storage)
+### CloudWTrail Bucket (Log Storage)
 - Separate bucket for CloudTrail logs
 - Versioning enabled
 - Restricted to CloudTrail + a security role only
 
-## AWS KMS (Customer-Managed CMK)
+### AWS KMS (Customer-Managed CMK)
 - Automatic key rotation enabled
 - Only S3, CloudTrail, and explicietly defined IAM roles can use the CMK
 - Ensures all objects (vault + logs) remain encrypted at rest
 
-# 3. IAM &Authorization Model
+### 3. IAM &Authorization Model
 
 The project intentionally uses a **simplified authorization model** to focus on infrstructure control
 
@@ -65,7 +65,7 @@ Even if Lambda is overly permissive, **S3 + IAM** still enforce strict boundary 
 - Enforce MFA for elevated roles
 - Lambda validates 'cognito:groups' claims
 
-# 4. Cognito Authentication
+### 4. Cognito Authentication
 
 Cognito is used for basic sign-up/sign-in:
 
@@ -78,14 +78,14 @@ Cognito is used for basic sign-up/sign-in:
 - Mp user groups to IAM roles
 - Add a JWT authorizer at API Gateway
 
-# 5. API Gateway + Lambda (Pre-Signed URL System)
+### 5. API Gateway + Lambda (Pre-Signed URL System)
 
-## API Gateway
+### API Gateway
 - HTTP API
 - ** No JWT authorizer configured** (design simplification)
 - All calls forwarded directly lambda
 
-## Lambda (Python Function)
+### Lambda (Python Function)
 Responsible for:
 
 - Accepting JSON payloads:
@@ -99,9 +99,9 @@ Responsible for:
 
   Lambda is packaged using Terraform 'archive_file' data source.
 
-# 6. Logging, Monitoring & Alerting
+### 6. Logging, Monitoring & Alerting
 
-## CloudTrail
+### CloudTrail
 
 - Multi-region
 - **S3 data events enabled** for the vault bucket
@@ -110,19 +110,19 @@ Responsible for:
 
 This ensures every upload, download, and delete is captured.
 
-## CloudWatch Metrics & Alarms
+### CloudWatch Metrics & Alarms
 A metric filter counts high-velocity events (downloads or presign calls)
 
 ### Alarm: *Excess Downloads*
 - Fires on **100+ accesses in 5minutes**
 - Sends 'ALARM' state to SNS
    
-## SNS Alerts
+### SNS Alerts
 
 - SNS topic sends email notifications
 - Requires manual subscription confirmation
 
-# 7. Lifecycle Management & Cost Optimization
+### 7. Lifecycle Management & Cost Optimization
 
 Vault bucket lifecycle rules:
 
@@ -135,7 +135,7 @@ This provides reletively 83% lower Long-term storage cost.
 Trail bucket may use similar tiering depending on configuration.
 
 
-# 8. Design Trade-offs (Intentional Simplifications)
+### 8. Design Trade-offs (Intentional Simplifications)
 
 To emphasize infrastructure security over product completeness:
 
@@ -151,7 +151,7 @@ These constraints allow focus on mastering:
 - Lifecycle management
 - Monitoring & alerting
 
-# 9. Summary
+### 9. Summary
 
 'architecture.md' captures:
 
