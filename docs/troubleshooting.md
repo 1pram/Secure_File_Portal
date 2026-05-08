@@ -2,7 +2,7 @@
 
 A few issues you might run into while deploying or tearing down the Secure File Portal and how to ifx them.
 
-## Terraform destroy fails because S3 bucket is not empty
+### Terraform destroy fails because S3 bucket is not empty
 
 You may see an error similar to:
 
@@ -19,5 +19,5 @@ Because versioning is enabled, deleting objects in the console does not remove p
 
 For automation, you can also use the AWS CLI:
 
-'''bash
+'''
 aws s3api delete-object --bucket <bucket> --key --version-id <version-id>
