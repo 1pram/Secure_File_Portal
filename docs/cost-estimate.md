@@ -7,7 +7,7 @@ The goal is not to predict aan exact AWS bill, but to:
 
 All estimates assume **light, lab-scale usage** and are meant for learning and architectural evaluation.
 
-## Assumptions
+### Assumptions
 
 The estimates below are based on the following assumptions:
 
@@ -20,7 +20,7 @@ The estimates below are based on the following assumptions:
 
 Real-world usage will change these numbers.
 
-## Service-by-service breakdown
+### Service-by-service breakdown
 
 ### Amazon S3 (Vault Bucket)
 
@@ -99,7 +99,7 @@ Up to 1,500 requests/month: approxmately $1.50
 **Estimated monthly cost**
 - $0
 
-## AWS CloudTrail (S3 Data Events)
+### AWS CloudTrail (S3 Data Events)
 
 **What is billed**
 - Data events for S3 object access
@@ -137,7 +137,7 @@ between $0.50 - $1.0
 **Estimated monthly cost**
 <$0.10
 
-## Estimated total for all services used: $6-$8 per month 
+### Estimated total for all services used: $6-$8 per month 
 
 
  
