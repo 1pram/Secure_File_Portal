@@ -21,3 +21,5 @@ For automation, you can also use the AWS CLI:
 
 '''
 aws s3api delete-object --bucket <bucket> --key --version-id <version-id>
+
+```
