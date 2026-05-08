@@ -19,7 +19,7 @@ Because versioning is enabled, deleting objects in the console does not remove p
 
 For automation, you can also use the AWS CLI:
 
-'''
+```
 aws s3api delete-object --bucket <bucket> --key --version-id <version-id>
 
 ```
